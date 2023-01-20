@@ -1,0 +1,149 @@
+[gd_scene load_steps=7 format=3 uid="uid://cwvr8qij43uo6"]
+
+[ext_resource type="Theme" uid="uid://c5o7byk5ahowx" path="res://Player/light_menu_theme.tres" id="2_63vbc"]
+[ext_resource type="Script" path="res://Network.gd" id="3_63wle"]
+[ext_resource type="PackedScene" uid="uid://i2dar07lpmhh" path="res://spawner/multiplayer_spawner.tscn" id="3_m2dy5"]
+
+[sub_resource type="Gradient" id="Gradient_s0uci"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_6x2ij"]
+gradient = SubResource("Gradient_s0uci")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gb4ja"]
+size = Vector2(64, 64)
+
+[node name="World" type="Node"]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(541, 638)
+scale = Vector2(31.64, 1)
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
+texture = SubResource("GradientTexture2D_6x2ij")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("RectangleShape2D_gb4ja")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(567, 323)
+scale = Vector2(31.64, 1)
+
+[node name="Network" type="Node" parent="."]
+script = ExtResource("3_63wle")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_63vbc")
+
+[node name="peer" type="Label" parent="Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -45.0
+offset_top = -294.5
+offset_right = -5.0
+offset_bottom = -246.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 40
+text = "Offline"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+layout_mode = 1
+offset_left = 32.0
+offset_top = 44.0
+offset_right = 90.0
+offset_bottom = 156.0
+theme_override_constants/separation = 50
+
+[node name="server" type="Button" parent="Control/VBoxContainer"]
+layout_mode = 2
+text = "Server"
+
+[node name="client" type="Button" parent="Control/VBoxContainer"]
+layout_mode = 2
+text = "Client"
+
+[node name="Exit" type="Button" parent="Control"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 51.0
+offset_top = -87.0
+offset_right = 251.0
+offset_bottom = -56.0
+grow_vertical = 0
+size_flags_vertical = 4
+text = "leave lobby"
+
+[node name="messanger" type="TextEdit" parent="Control"]
+custom_minimum_size = Vector2(400, 300)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -197.0
+offset_top = -226.0
+offset_right = 203.0
+offset_bottom = 74.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 0
+placeholder_text = "..."
+editable = false
+
+[node name="user_input" type="LineEdit" parent="Control"]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = 74.0
+offset_right = 200.0
+offset_bottom = 105.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+placeholder_text = "..."
+
+[node name="send_message" type="Button" parent="Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 169.0
+offset_top = 81.0
+offset_right = 215.0
+offset_bottom = 112.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+size_flags_horizontal = 4
+size_flags_vertical = 4
+text = "send"
+icon_alignment = 1
+
+[node name="List_CONNECTED_PLAYERS" parent="." instance=ExtResource("3_m2dy5")]
+
+[connection signal="pressed" from="Control/VBoxContainer/server" to="Network" method="_on_server_pressed"]
+[connection signal="pressed" from="Control/VBoxContainer/client" to="Network" method="_on_client_pressed"]
+[connection signal="pressed" from="Control/Exit" to="Network" method="_on_button_pressed"]
+[connection signal="pressed" from="Control/send_message" to="Network" method="_on_send_message_pressed"]

@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://c1oj7heneulej"]
+
+[ext_resource type="Script" path="res://Player.gd" id="1_lf24y"]
+[ext_resource type="Texture2D" uid="uid://nieqjkrc0qgo" path="res://Player/icon.svg" id="2_xheq2"]
+[ext_resource type="AudioStream" uid="uid://bgd37xsnc4olu" path="res://633250__aesterial-arts__arcade-shoot.wav" id="3_6am24"]
+
+[node name="Player_Game" type="CharacterBody2D"]
+position = Vector2(264, 234)
+scale = Vector2(0.5, 0.5)
+script = ExtResource("1_lf24y")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_xheq2")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(64, -60.8, 64, 59, 59.6, 64, -60.1, 64, -64, 60.7, -64, -59, -59, -63.8, 59.1, -64)
+
+[node name="gun_pos" type="Marker2D" parent="."]
+position = Vector2(146, 2)
+gizmo_extents = 90.0
+
+[node name="CooldownAttack" type="Timer" parent="."]
+
+[node name="attack_sound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_6am24")
+
+[connection signal="timeout" from="CooldownAttack" to="." method="_on_cooldown_attack_timeout"]
